@@ -43,7 +43,7 @@ export class CompanyDetailsComponent {
         }
     };
 
-    this.router.navigate(['manage-employee'], navigationExtras);
+    this.router.navigate(['manage-employee', this.company.id], navigationExtras);
   }
 
   deleteUser(employee: Employee): void {
@@ -54,6 +54,13 @@ export class CompanyDetailsComponent {
   };
   
   addEmployee(){
+    let navigationExtras: NavigationExtras = {
+        queryParams: {
+            "companyId": this.company.id,
+            "companyName": this.company.name
+        }
+    };
 
+    this.router.navigate(['manage-employee'], navigationExtras);
   }
 }

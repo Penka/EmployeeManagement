@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Employee } from '../models/employee';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from '../models/company';
 
 @Component({
@@ -17,6 +17,7 @@ export class ManageEmployeeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string
   ) {
@@ -36,8 +37,6 @@ export class ManageEmployeeComponent implements OnInit {
               this.companyName = params["companyName"];
               this.employee.company = new Company();
               this.employee.company.id = params["companyId"];
-
-              console.log(this.employee);
             });
           }
       });
@@ -52,7 +51,16 @@ export class ManageEmployeeComponent implements OnInit {
 
   onSubmit(){
     const url = this.baseUrl + 'api/Employees/';
-    this.http.post<any>(url, this.employee).subscribe(data => console.log(data), error => console.log(error));
+    if(this.isNewEmployee){
+      this.http.post<any>(url, this.employee).subscribe(data => 
+        this.router.navigate(['companies/' + this.employee.company.id],), 
+      error => console.log(error));
+    } else{
+      this.http.put<any>(url + this.employee.id, this.employee).subscribe(data => 
+        this.router.navigate(['companies/' + this.employee.company.id],), 
+        error => console.log(error));
+    }
+
   }
 
 }
