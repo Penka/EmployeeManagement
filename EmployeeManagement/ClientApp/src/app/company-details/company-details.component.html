@@ -1,1 +1,29 @@
 <h1>{{company.name}}</h1>
+<div>
+    <div>address:</div><div>{{company.address}}</div>
+</div>
+<h2>Employees</h2>
+<table class='table' *ngIf="company.employees">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Salary</th>
+        <th>Vacation Days</th>
+        <th>Experience Level</th>
+        <th>Start Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of company.employees">
+        <td>{{ employee.name }}</td>
+        <td>{{ employee.salary }}</td>
+        <td>{{ employee.vacationDays }}</td>
+        <td>{{ employee.experienceLevel }}</td>
+        <td>{{ employee.startDate | date }}</td>
+        <td>
+            <button class="btn btn-success" (click)="editEmployee(employee)"> Edit</button>
+            <button class="btn btn-success" (click)="deleteEmployee(employee)" style="margin-left: 20px;"> Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>

@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Company } from '../models/company';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { Employee } from '../models/employee';
 
 @Component({
     selector: 'app-company-details',
@@ -9,17 +10,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CompanyDetailsComponent {
   public company: Company;
-  private sub: any;
-
+  private sub: any; 
+  
   constructor(
       private route: ActivatedRoute,
       private http: HttpClient,
+      private router: Router,
       @Inject('BASE_URL') private baseUrl: string
   ) {
-      this.company = new Company();
-      this.company.name = "test name";
-      this.company.address = "test address";
-      this.company.id = 1;
+       this.company = new Company();
   }
 
   ngOnInit() {
@@ -31,8 +30,30 @@ export class CompanyDetailsComponent {
 
   getCompanyDetail(id: number) {
       const url = this.baseUrl + 'api/Companies/' + id;
-    //   this.http.get<Company>(url).subscribe(result => {
-    //     this.company = result;
-    //   }, error => console.error(error));
+      this.http.get<Company>(url).subscribe(result => {
+        this.company = result;
+      }, error => console.error(error));
+  }
+
+  editEmployee(employee) {
+    let navigationExtras: NavigationExtras = {
+        queryParams: {
+            "companyId": this.company.id,
+            "companyName": this.company.name
+        }
+    };
+
+    this.router.navigate(['manage-employee'], navigationExtras);
+  }
+
+  deleteUser(employee: Employee): void {
+    this.http.delete(this.baseUrl + 'api/Companies/' + employee.id)
+        .subscribe( data => {
+        this.company.employees = this.company.employees.filter(e => e !== employee);
+        })
+  };
+  
+  addEmployee(){
+
   }
 }

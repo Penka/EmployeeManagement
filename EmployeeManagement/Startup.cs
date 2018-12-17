@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using DbEmployee = EmployeeManagement.Data.Models.Employee;
 using DbCompany = EmployeeManagement.Data.Models.Employee;
+using EmployeeManagement.Helpers;
 
 namespace EmployeeManagement
 {
@@ -36,7 +37,8 @@ namespace EmployeeManagement
             });
 
             services.AddAutoMapper();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -50,7 +52,8 @@ namespace EmployeeManagement
             Mapper.Initialize(configuration =>
             {
                 configuration.CreateMap<Company, DbCompany>().ReverseMap();
-                configuration.CreateMap<Employee, DbEmployee>().ReverseMap();
+                configuration.CreateMap<DbEmployee, Employee>();
+                configuration.CreateMap<Employee, DbEmployee>().ConvertUsing<EmployeesTypeConverter>();
             });
         }
 
@@ -83,10 +86,10 @@ namespace EmployeeManagement
 
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
+            // To learn more about options for serving an Angular SPA from ASP.NET Core,
+            // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+            spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
                 {

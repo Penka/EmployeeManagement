@@ -10,7 +10,7 @@ namespace EmployeeManagement.Repository
         public EmployeesRepository(EmployeeManagementDbContext context) : base(context)
         {
         }
-
+        
         public override Employee Get(int id) =>
            _entities.AsNoTracking().Include(c => c.Company).FirstOrDefault(c => c.Id == id);
     }
