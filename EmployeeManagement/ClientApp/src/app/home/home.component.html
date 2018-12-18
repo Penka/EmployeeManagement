@@ -1,5 +1,5 @@
 <h1>Companies list</h1>
-
+<button class="btn btn-success" (click)="addCompany()">Add Company</button>
 <table class='table' *ngIf="companies">
   <thead>
     <tr>
@@ -11,6 +11,15 @@
     <tr *ngFor="let company of companies">
       <td><a routerLink="/companies/{{company.id}}">{{company.name}}</a></td>
       <td>{{ company.address }}</td>
+      <td>
+        <button class="btn btn-success" (click)="editCompany(company)"> Edit</button>
+        <button class="btn btn-success"
+          mwlConfirmationPopover
+          [popoverMessage]="popoverMessage"
+          placement="left"
+          (confirm)="deleteCompany(company)" style="margin-left: 20px;">
+          Delete
+        </button></td>
     </tr>
   </tbody>
 </table>

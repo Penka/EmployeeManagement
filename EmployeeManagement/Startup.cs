@@ -4,14 +4,13 @@ using EmployeeManagement.Repository;
 using EmployeeManagement.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using DbEmployee = EmployeeManagement.Data.Models.Employee;
-using DbCompany = EmployeeManagement.Data.Models.Employee;
+using DbCompany = EmployeeManagement.Data.Models.Company;
 using EmployeeManagement.Helpers;
 
 namespace EmployeeManagement
@@ -51,7 +50,9 @@ namespace EmployeeManagement
 
             Mapper.Initialize(configuration =>
             {
-                configuration.CreateMap<Company, DbCompany>().ReverseMap();
+                configuration.CreateMap<Company, DbCompany>()
+                             .ForMember(x => x.Employees, opt => opt.Ignore())
+                             .ReverseMap();
                 configuration.CreateMap<DbEmployee, Employee>();
                 configuration.CreateMap<Employee, DbEmployee>().ConvertUsing<EmployeesTypeConverter>();
             });

@@ -3,6 +3,7 @@ import { Employee } from '../models/employee';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from '../models/company';
+import { ExperienceLevelOptions, ExperienceLevel } from '../models/experienceLevel';
 
 @Component({
   selector: 'app-manage-employee',
@@ -10,9 +11,9 @@ import { Company } from '../models/company';
 })
 export class ManageEmployeeComponent implements OnInit {
   private companyName: string;
-  
+  private experienceLevelOptions;
   private employee: Employee;
-  private sub: any; 
+  private sub: any;
   private isNewEmployee: boolean;
 
   constructor(
@@ -22,13 +23,13 @@ export class ManageEmployeeComponent implements OnInit {
     @Inject('BASE_URL') private baseUrl: string
   ) {
       this.employee = new Employee();
-      this.isNewEmployee = true; 
-      
+      this.isNewEmployee = true;
+      this.experienceLevelOptions = ExperienceLevelOptions;
   }
 
   ngOnInit() {
       this.sub = this.route.params.subscribe((params) => {
-          const id = params['id']; 
+          const id = params['id'];
           if(id != null) {
             this.isNewEmployee = false;
              this.getEmployeeDetail(id);
@@ -51,13 +52,13 @@ export class ManageEmployeeComponent implements OnInit {
 
   onSubmit(){
     const url = this.baseUrl + 'api/Employees/';
-    if(this.isNewEmployee){
-      this.http.post<any>(url, this.employee).subscribe(data => 
-        this.router.navigate(['companies/' + this.employee.company.id],), 
+    if (this.isNewEmployee){
+      this.http.post<any>(url, this.employee).subscribe(data =>
+        this.router.navigate(['companies/' + this.employee.company.id]),
       error => console.log(error));
-    } else{
-      this.http.put<any>(url + this.employee.id, this.employee).subscribe(data => 
-        this.router.navigate(['companies/' + this.employee.company.id],), 
+    } else {
+      this.http.put<any>(url + this.employee.id, this.employee).subscribe(data =>
+        this.router.navigate(['companies/' + this.employee.company.id]),
         error => console.log(error));
     }
 

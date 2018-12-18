@@ -10,28 +10,35 @@
 
     <div class="form-group">
       <label for="salary">Salary</label>
-      <input type="text" class="form-control" id="salary"
+      <input type="number" class="form-control" id="salary"
       required
       [(ngModel)]="employee.salary" name="salary">
     </div>
 
     <div class="form-group">
       <label for="vacationDays">Vacation Days</label>
-      <input type="text" class="form-control" id="vacationDays"
+      <input type="number" class="form-control" id="vacationDays"
       required
       [(ngModel)]="employee.vacationDays" name="vacationDays">
     </div>
 
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="expLevel">Experience Level</label>
       <input type="text" class="form-control" id="expLevel"
       required
       [(ngModel)]="employee.experienceLevel" name="expLevel">
-    </div>
+    </div> -->
 
     <div class="form-group">
+        <label for="expLevel">Experience Level</label>
+        <select [(ngModel)]="employee.experienceLevel" name="experienceLevel">
+            <option *ngFor="let el of experienceLevelOptions" [value]="el.key">{{el.value}}</option>
+        </select>       
+    </div>
+  
+    <div class="form-group">
       <label for="startDate">Start Date</label>
-      <input type="text" class="form-control" id="startDate"
+      <input type="date" class="form-control" id="startDate"
       required
       [(ngModel)]="employee.startDate" name="startDate">
     </div>

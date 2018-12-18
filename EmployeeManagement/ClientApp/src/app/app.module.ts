@@ -10,6 +10,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { ManageEmployeeComponent } from './manage-employee/manage-employee.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { ManageCompanyComponent } from './manage-company/manage-company.component';
 
 @NgModule({
   declarations: [
@@ -17,13 +19,17 @@ import { ManageEmployeeComponent } from './manage-employee/manage-employee.compo
     NavMenuComponent,
     HomeComponent,
     CompanyDetailsComponent,
-    ManageEmployeeComponent
+    ManageEmployeeComponent,
+    ManageCompanyComponent
   ],
   imports: [
     AgGridModule.withComponents(null),
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger' // set defaults here
+    }),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       {
@@ -31,13 +37,20 @@ import { ManageEmployeeComponent } from './manage-employee/manage-employee.compo
         component: CompanyDetailsComponent
       },
       {
-        path: "manage-employee/:id",
+        path: "edit-employee/:id",
         component: ManageEmployeeComponent
       },
       {
-        path: "manage-employee",
-        component: ManageEmployeeComponent,
-        data : {companyId : ''}
+        path: "add-employee",
+        component: ManageEmployeeComponent
+      },
+      {
+        path: "edit-company/:id",
+        component: ManageCompanyComponent
+      },
+      {
+        path: "add-company",
+        component: ManageCompanyComponent
       }
     ])
   ],

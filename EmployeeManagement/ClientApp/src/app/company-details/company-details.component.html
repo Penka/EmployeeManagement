@@ -19,11 +19,17 @@
         <td>{{ employee.name }}</td>
         <td>{{ employee.salary }}</td>
         <td>{{ employee.vacationDays }}</td>
-        <td>{{ employee.experienceLevel }}</td>
+        <td>{{ experienceLevelOptions[employee.experienceLevel].value }}</td>
         <td>{{ employee.startDate | date }}</td>
         <td>
             <button class="btn btn-success" (click)="editEmployee(employee)"> Edit</button>
-            <button class="btn btn-success" (click)="deleteEmployee(employee)" style="margin-left: 20px;"> Delete</button>
+            <button class="btn btn-success"
+              mwlConfirmationPopover
+              [popoverMessage]="popoverMessage"
+              placement="left"
+              (confirm)="deleteEmployee(employee)" style="margin-left: 20px;">
+              Delete
+            </button>
         </td>
       </tr>
     </tbody>
