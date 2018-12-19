@@ -1,8 +1,7 @@
 <h1>{{company.name}}</h1>
 <div>
-    <div>address:</div><div>{{company.address}}</div>
+    <div>Address:{{company.address}}</div>
 </div>
-<h2>Employees</h2>
 <button class="btn btn-success" (click)="addEmployee()">Add Employee</button>
 <table class='table' *ngIf="company.employees">
     <thead>
